@@ -1,0 +1,25 @@
+{% extends "flights/layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Update Passenger</h1>
+    {% if message %}
+         <div class="alert alert-success" role="alert">
+            {{message}}
+          </div>
+    {% endif %}
+    <form method="post" class="needs-validation">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_first">First Name:</label>
+            <input type="text" id="id_first" name="first" value="{{ passenger.first }}" required>
+        </div>
+        <div class="form-group">
+            <label for="id_last">Last Name:</label>
+            <input type="text" id="id_last" name="last" value="{{ passenger.last }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Passenger</button>
+    </form>
+</div>
+
+{% endblock %}

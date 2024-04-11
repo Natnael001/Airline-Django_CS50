@@ -1,0 +1,24 @@
+{% extends "flights/layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Add Airport</h1>
+    {% if message %}
+         <div class="alert alert-success" role="alert">
+            {{message}}
+          </div>
+    {% endif %}
+    <form method="post" class="needs-validation">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_code">Airport Code:</label>
+            <input type="text" id="id_code" name="code" value="{{ airport.code }}" required>
+        </div>
+        <div class="form-group">
+            <label for="id_city">City:</label>
+            <input type="text" id="id_city" name="city" value="{{ airport.city }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Airport</button>
+    </form>
+</div>
+{% endblock %}

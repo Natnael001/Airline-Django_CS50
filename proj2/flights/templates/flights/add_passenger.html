@@ -1,0 +1,35 @@
+{% extends "flights/layout.html" %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1>Add Passenger</h1>
+    {% if message %}
+         <div class="alert alert-success" role="alert">
+            {{message}}
+          </div>
+    {% endif %}
+
+      <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_first">First Name:</label>
+            <input type="text" id="id_first" name="first" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="id_last">Last Name:</label>
+            <input type="text" id="id_last" name="last" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="id_flight">Flight:</label>
+            <select id="id_flight" name="flight" class="form-control" required>
+                <option value="" disabled selected>Select Flight</option>
+                {% for flight in flights %}
+                    <option value="{{ flight.pk }}">{{ flight.id }}: {{ flight.origin }} to {{ flight.destination }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}
