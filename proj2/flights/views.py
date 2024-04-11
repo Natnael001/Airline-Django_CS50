@@ -22,7 +22,7 @@ def add_passenger(request):
             flight = Flight.objects.get(pk=flight_id)
             passenger.flights.add(flight)
             
-            # Redirect to a success page or another URL
+            # Redirect to a success page
             return render(request, 'flights/add_passenger.html', 
                           {'message': "Passenger Successfully Added"})
         except Exception as e:
