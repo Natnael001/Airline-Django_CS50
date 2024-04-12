@@ -5,6 +5,8 @@ from django.urls import reverse
 from .models import Flight,Passenger,Airport
 
 def add_passenger(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('users:login'))
     if request.method == 'POST':
         # Extract passenger data from POST request
         first_name = request.POST.get('first')
@@ -22,7 +24,7 @@ def add_passenger(request):
             flight = Flight.objects.get(pk=flight_id)
             passenger.flights.add(flight)
             
-            # Redirect to a success page
+            # Redirect to a success page or another URL
             return render(request, 'flights/add_passenger.html', 
                           {'message': "Passenger Successfully Added"})
         except Exception as e:
@@ -31,10 +33,9 @@ def add_passenger(request):
             return render(request, 'flights/add_passenger.html', 
                           {'message': "Passenger Not Added"})
     else:
-        # Get all flights from the database
+
         flights = Flight.objects.all()
-        
-        # Pass flights to the template context
+  
         return render(request, 'flights/add_passenger.html', {'flights': flights})
 
 def index(request):
@@ -46,6 +47,8 @@ def index(request):
     })
 
 def flight(request, flight_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('users:login'))
     flight = Flight.objects.get(pk=flight_id)
     return render(request, "flights/flight.html", {
         "flight": flight,
@@ -54,6 +57,8 @@ def flight(request, flight_id):
     })
 
 def book(request, flight_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('users:login'))
     if request.method == "POST":
         flight =Flight.objects.get(pk=flight_id)
         passenger = Passenger.objects.get(pk=int(request.POST["passanger"]))
@@ -61,6 +66,8 @@ def book(request, flight_id):
         return HttpResponseRedirect(reverse("flight:flight",args=(flight_id,)))
     
 def add_airport(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('users:login'))
     if request.method == 'POST':
         code = request.POST.get('code')
         city = request.POST.get('city') 
@@ -79,6 +86,8 @@ def add_airport(request):
         return render(request, 'flights/add_airport.html')
     
 def add_flight(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('users:login'))
     if request.method == 'POST':
         origin_id = request.POST.get('origin')
         destination_id = request.POST.get('destination')
